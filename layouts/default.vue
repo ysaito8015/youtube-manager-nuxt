@@ -2,7 +2,7 @@
   <div id="app">
 		<TheHeader />
 		<div class="columns">
-			<TheSideber />
+			<TheSidebar />
 			<div class="column content">
 				<nuxt />
 			</div>

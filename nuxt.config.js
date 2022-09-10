@@ -35,6 +35,8 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/bulma',
+    '@nuxtjs/axios'
   ],
 
   // Axios module configuration

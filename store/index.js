@@ -19,7 +19,7 @@ export const actions = {
 export const mutations = {
   mutatePopularVideos(state, payload) {
     // ステートに API のレスポンスをセットする
-    stateitems = payload.items ? state.items.concat(payload.items) : []
+    state.items = payload.items ? state.items.concat(payload.items) : []
     state.meta = payload
   },
 }
