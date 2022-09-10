@@ -4,9 +4,21 @@
       <div class="block">
         <div class="block video-block" v-for="item in items">
           <AppVideo :item="item" :video-id="item.id" />
-        </div>
-      </div>
-    </div>
+        </div> <!-- end of video-block -->
+      </div> <!-- end of block -->
+
+      <div id="block">
+        <nav id="pagination">
+          <a
+            href.prevent="#"
+            class="pagination-next"
+            @click="loadMore"
+            >
+            More
+          </a>
+        </nav>
+      </div> <!-- end of block -->
+    </div> <!-- end of container -->
   </section>
 </template>
 
@@ -20,6 +32,22 @@
     computed: {
       items() {
         return this.$store.getters.getPopularVideos
+      },
+      nextPageToken() {
+        return this.$store.getters.getMeta.nextPageToken
+      }
+    },
+
+    methods: {
+      loadMore() {
+        const payload = {
+          uri: ROUTES.GET.POPULARS,
+          params: {
+            pageToken: this.nextPageToken
+          }
+        }
+
+        this.$store.dispatch('fetchPopularVideos', payload)
       }
     },
 

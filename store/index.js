@@ -29,4 +29,8 @@ export const getters = {
     // Vue コンポネントからステートを取得するゲッター
     return state.items
   },
+  getMeta(state) {
+    return state.meta
+  },
 }
+
