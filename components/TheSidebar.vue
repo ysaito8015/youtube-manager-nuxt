@@ -5,10 +5,10 @@
         <ul class="menu-list">
           <li>
             <nuxt-link
-							to="/"
-						>
-							ホーム
-						</nuxt-link>
+              to="/"
+            >
+              ホーム
+            </nuxt-link>
           </li>
         </ul>
       </aside>
