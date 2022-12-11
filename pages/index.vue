@@ -2,9 +2,12 @@
   <section class="section">
     <div class="container">
       <div class="block">
-        <div class="block video-block" v-for="item in items">
-          <AppVideo :item="item" :video-id="item.id" />
-        </div> <!-- end of video-block -->
+        <div class="block video-block" v-for="item in items" :key="item.id">
+          <AppVideo
+              :item="item"
+              :video-id="item.id"
+          />
+        </div> <!-- end of block video-block -->
       </div> <!-- end of block -->
 
       <div id="block">
@@ -51,6 +54,7 @@
       }
     },
 
+    // ページレンダリング時にストアにデータをセットする
     async fetch({store}) {
       const payload = {
         uri: ROUTES.GET.POPULARS
@@ -60,6 +64,7 @@
         return
       }
 
+    // store のアクションに送る
     await store.dispatch('fetchPopularVideos', payload)
     }
   }

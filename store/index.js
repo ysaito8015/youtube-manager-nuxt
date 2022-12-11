@@ -2,7 +2,8 @@ import {createRequestClient} from '~/store/request-client';
 
 export const state =() => ({
   items: [],
-  item: {},
+  relatedItems: [], // 関連道のためのステート
+  item: {}, // 個別の動画のステート
   meta: {},
 })
 
@@ -16,6 +17,7 @@ export const actions = {
     commit('mutatePopularVideos', res)
   },
 
+  // 個別の動画取得に使用するアクション
   async findVideo({commit}, payload) {
     const client = createRequestClient(this.$axios)
     const res = await client.get(payload.uri)
@@ -23,6 +25,13 @@ export const actions = {
       ...res.video_list,
     }
     commit('mutateVideo', params)
+  },
+
+  // 関連動画取得に使用するアクション
+  async fetchRelatedVideos({commit}, payload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.get(payload.uri)
+    commit('mutateRelatedVideos', res)
   },
 }
 
@@ -33,9 +42,15 @@ export const mutations = {
     state.meta = payload
   },
 
+  // 個別の動画取得に使用するミューテーション
   mutateVideo(state, payload) {
     const params = (payload.items && payload.items.length > 0) ? payload.items[0] : {}
     state.item = params
+  },
+
+  // 関連動画取得に使用するミューテーション
+  mutateRelatedVideos(state, payload) {
+    state.relatedItems = payload.items || []
   },
 }
 
@@ -49,8 +64,14 @@ export const getters = {
     return state.meta
   },
 
+  // 個別の動画取得に使用するゲッター
   getVideo(state) {
     return state.item
+  },
+
+  // 関連動画を取得するゲッター
+  getRelatedVideos(state) {
+    return state.relatedItems
   },
 }
 

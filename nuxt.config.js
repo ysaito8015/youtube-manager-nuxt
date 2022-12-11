@@ -15,10 +15,14 @@ export default {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
+  /*
+  ** Customize the progress-bar color
+  */
+  loading: { color: '#fff' },
+  /*
+  ** Global CSS
+  */
   css: [
-    'balm-ui/dist/balm-ui.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins

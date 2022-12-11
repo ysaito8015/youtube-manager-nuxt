@@ -1,3 +1,5 @@
+// axios は HTTP クライアント
+// axios をラップしたリクエストクライアントクラス
 export class RequestClient {
   constructor(axios) {
     this.axios = axios
