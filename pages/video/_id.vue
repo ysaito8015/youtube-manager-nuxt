@@ -84,7 +84,7 @@
 
         await store.dispatch('fetchRelatedVideos', {
           // RELATED に対応するルーティングを追加する必要がある
-          url: ROUTES.GET.RELATED.replace(':id', route.params.id),
+          uri: ROUTES.GET.RELATED.replace(':id', route.params.id),
         })
       }
   }
