@@ -2,9 +2,11 @@ import {createRequestClient} from '~/store/request-client';
 
 export const state =() => ({
   items: [],
-  relatedItems: [], // 関連道のためのステート
+  relatedItems: [], // 関連動画のためのステート
   item: {}, // 個別の動画のステート
   meta: {},
+  searchItems: [], // 検索結果のための state
+  searchMeta: {},
 })
 
 export const actions = {
@@ -33,11 +35,18 @@ export const actions = {
     const res = await client.get(payload.uri)
     commit('mutateRelatedVideos', res)
   },
+
+  // 動画の検索に使用するアクション
+  async searchVideos({commit}, payload) {
+    const client = createRequestClient(this.$axios)
+    const res = await client.get(payload.uri, payload.params)
+    commit('mutateSearchVideos', res)
+  }
 }
 
+// ステートに API のレスポンスをセットする
 export const mutations = {
   mutatePopularVideos(state, payload) {
-    // ステートに API のレスポンスをセットする
     state.items = payload.items ? state.items.concat(payload.items) : []
     state.meta = payload
   },
@@ -52,11 +61,18 @@ export const mutations = {
   mutateRelatedVideos(state, payload) {
     state.relatedItems = payload.items || []
   },
+
+  // 検索結果に対するミューテーション
+  mutateSearchVideos(state, payload) {
+    state.searchItems = payload.items ? state.searchItems.concate(payload.items) : []
+    state.searchMeta = payload
+  },
 }
 
+// Vue コンポネントからステートを取得するゲッター
 export const getters = {
+  // popular 動画取得に使用するゲッター
   getPopularVideos(state) {
-    // Vue コンポネントからステートを取得するゲッター
     return state.items
   },
 
@@ -72,6 +88,16 @@ export const getters = {
   // 関連動画を取得するゲッター
   getRelatedVideos(state) {
     return state.relatedItems
+  },
+
+  // 検索結果を取得するゲッター
+  getSearchVideos(state) {
+    return state.searchItems
+  },
+
+  // 検索結果のメタ情報を取得するゲッター
+  getSearchMeta(state) {
+    return state.searchMeta
   },
 }
 
