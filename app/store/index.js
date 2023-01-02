@@ -64,7 +64,7 @@ export const mutations = {
 
   // 検索結果に対するミューテーション
   mutateSearchVideos(state, payload) {
-    state.searchItems = payload.items ? state.searchItems.concate(payload.items) : []
+    state.searchItems = payload.items ? state.searchItems.concat(payload.items) : []
     state.searchMeta = payload
   },
 }
