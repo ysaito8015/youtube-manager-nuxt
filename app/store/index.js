@@ -1,4 +1,5 @@
-import {createRequestClient} from '~/store/request-client';
+import {createRequestClient} from '~/store/request-client'
+import firebase from '~/plugins/firebase'
 
 export const state =() => ({
   items: [],
@@ -7,6 +8,7 @@ export const state =() => ({
   meta: {},
   searchItems: [], // 検索結果のための state
   searchMeta: {},
+  token: '',
 })
 
 export const actions = {
@@ -41,7 +43,21 @@ export const actions = {
     const client = createRequestClient(this.$axios)
     const res = await client.get(payload.uri, payload.params)
     commit('mutateSearchVideos', res)
-  }
+  },
+
+  // Action for using firebase Auth
+  async signUp({commit, dispatch}, payload) {
+    await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+    const res = await firebase.auth().aignInWithEmailAndPassowrd(payload.email, payload.password)
+    const token = await res.user.getIdToken()
+    this.$cookies.set('jwt_token', token)
+    commit('mutateToken', token)
+    this.app.router.push('/')
+  },
+
+  async setToken({commit}, payload) {
+    commit('mutateToken', payload)
+  },
 }
 
 // ステートに API のレスポンスをセットする
@@ -66,6 +82,11 @@ export const mutations = {
   mutateSearchVideos(state, payload) {
     state.searchItems = payload.items ? state.searchItems.concat(payload.items) : []
     state.searchMeta = payload
+  },
+  
+  // Mutate to set token to state
+  mutateToken(state, payload) {
+    state.token = payload
   },
 }
 
