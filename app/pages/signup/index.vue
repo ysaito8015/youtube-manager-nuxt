@@ -18,7 +18,7 @@
             <label class="label">Password</label>
             <div class="control">
               <input
-                v-model = "pasword"
+                v-model = "password"
                 class = "input is-info"
                 type = "password"
                 placeholder = "Password"
@@ -50,7 +50,7 @@
     },
 
     methods: {
-      signUP() {
+      signUp() {
         let user = {
           email: this.email,
           password: this.password
