@@ -1,5 +1,10 @@
 import {createRequestClient} from '~/store/request-client'
 import firebase from '~/plugins/firebase'
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from 'firebase/auth'
 
 export const state =() => ({
   items: [],
@@ -47,9 +52,19 @@ export const actions = {
 
   // Action for using firebase Auth
   async signUp({commit, dispatch}, payload) {
-    await firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-    const res = await firebase.auth().aignInWithEmailAndPassowrd(payload.email, payload.password)
-    const token = await res.user.getIdToken()
+    const auth = getAuth()
+    try {
+      await createUserWithEmailAndPassword(
+        auth,
+        payload.email,
+        payload.password
+      )
+    } catch (e) {
+      console.error(e)
+    }
+    await signInWithEmailAndPassword(auth, payload.email, payload.password)
+    const user = auth.currentUser
+    const token = await user.getIdToken()
     this.$cookies.set('jwt_token', token)
     commit('mutateToken', token)
     this.app.router.push('/')
